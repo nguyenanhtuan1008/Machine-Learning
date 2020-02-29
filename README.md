@@ -14,3 +14,7 @@ conda activate ml
 
 - python .\src\create_folds.py
 
+- python .\src\train.py
+Result:
+0.7437763648654564
+
