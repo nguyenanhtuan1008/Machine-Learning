@@ -1,5 +1,6 @@
-export TRAINING_DATA=input/train_folds.csv
-export FOLD=0
+set TRAINING_DATA=input/train_folds.csv
+set FOLD=0
+set MODEL=$1
 
-python -m src/train
+python -m src/train.py
 pause

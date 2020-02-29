@@ -3,9 +3,13 @@ import pandas as pd
 from sklearn import ensemble
 from sklearn import preprocessing
 from sklearn import metrics
+import joblib
+
+# from . import dispatcher
 
 TRAINING_DATA = 'input/train_folds.csv'#os.environ.get("TRAINING_DATA")
 FOLD = 0#int(os.environ.get("FOLD"))
+# MODEL = os.environ.get('MODEL')#'extratrees'#'randomforest'
 
 FOLD_MAPPPING = {
     0: [1, 2, 3, 4],
@@ -38,7 +42,12 @@ if __name__ == "__main__":
         label_encoders.append([c, lbl])
 
     # data is ready to train
-    clf = ensemble.RandomForestClassifier(n_estimators=200, n_jobs=-1, verbose=2)
+    # clf = dispatcher.MODELS[MODEL]
+    clf = ensemble.ExtraTreesClassifier(n_estimators=200, n_jobs=-1, verbose=2)#ensemble.RandomForestClassifier(n_estimators=200, n_jobs=-1, verbose=2)
     clf.fit(train_df, ytrain)
     preds = clf.predict_proba(valid_df)[:, 1]
     print(metrics.roc_auc_score(yvalid, preds))
+
+    name = 'extratree'
+    joblib.dump(label_encoders, f'models/{name}_label_encoder.pkl')
+    joblib.dump(clf, f'models/{name}.pkl')
