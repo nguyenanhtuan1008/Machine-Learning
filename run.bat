@@ -1,12 +1,17 @@
 set TRAINING_DATA=input\train_folds.csv
-set FOLD=0
+set TEST_DATA=input\test.csv
+
 set MODEL=%1
 
+set FOLD=0 
+python -m src.train
+set FOLD=1 
+python -m src.train
+set FOLD=2 
+python -m src.train
+set FOLD=3 
+python -m src.train
+set FOLD=4 
 python -m src.train
 
-REM for linux
-REM export TRAINING_DATA=input\train_folds.csv
-REM export FOLD=0
-REM export MODEL=$1
-
-REM python -m src.train1
+python -m src.predict
