@@ -34,14 +34,14 @@ class CrossValidation:
         self.dataframe["kfold"] = -1
     
     def split(self):
-        if self.problem_type == "binary_classification":
+        if self.problem_type in ["binary_classification", "multiclass_classification"]:
             target = self.target_cols[0]
             unique_values = self.dataframe[target].nunique()
             if unique_values == 1:
                 raise Exception("Only one unique value found!")
             elif unique_values > 1:
                 kf = model_selection.StratifiedKFold(n_splits=self.num_folds, 
-                                                        shuffle=False)
+                                                     shuffle=False)
 
                 for fold, (train_idx, val_idx) in enumerate(kf.split(X=self.dataframe, y=self.dataframe[target].values)):
                     self.dataframe.loc[val_idx, 'kfold'] = fold
