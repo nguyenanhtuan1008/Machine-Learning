@@ -40,6 +40,18 @@ run.bat
 
 .\run.bat randomforest
 
+## 2. Cross Validation Framework
+
+- dataset for binary_classification and multi class classification same as above
+- dataset for single_col_classification is https://www.kaggle.com/c/house-prices-advanced-regression-techniques/data
+
+## 3. Handling categorical features in ML problems
+
+- Dataset : https://www.kaggle.com/c/cat-in-the-dat-ii
+
+- count number rows csv:
+    wc -l ../input/train_cat.csv (linux only)
+
 ## Ref:
 run.bat in window 
 set TRAINING_DATA=input\train_folds.csv
