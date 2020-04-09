@@ -37,11 +37,16 @@ if __name__ == "__main__":
     label_encoders = {}
     for c in train_df.columns:
         lbl = preprocessing.LabelEncoder()
-        lbl.fit(train_df[c].values.tolist() + valid_df[c].values.tolist() + df_test[c].values.tolist())
+        train_df.loc[:, c] = train_df.loc[:, c].astype(str).fillna("NONE")
+        valid_df.loc[:, c] = valid_df.loc[:, c].astype(str).fillna("NONE")
+        df_test.loc[:, c] = df_test.loc[:, c].astype(str).fillna("NONE")
+        lbl.fit(train_df[c].values.tolist() + 
+                valid_df[c].values.tolist() + 
+                df_test[c].values.tolist())
         train_df.loc[:, c] = lbl.transform(train_df[c].values.tolist())
         valid_df.loc[:, c] = lbl.transform(valid_df[c].values.tolist())
         label_encoders[c] = lbl
-
+    
     # data is ready to train
     clf = dispatcher.MODELS[MODEL]
     clf.fit(train_df, ytrain)
@@ -51,4 +56,3 @@ if __name__ == "__main__":
     joblib.dump(label_encoders, f"models/{MODEL}_{FOLD}_label_encoder.pkl")
     joblib.dump(clf, f"models/{MODEL}_{FOLD}.pkl")
     joblib.dump(train_df.columns, f"models/{MODEL}_{FOLD}_columns.pkl")
-    
